@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Toothpasre Social 0.2</title>
+<title>Toothpasre Social 0.3</title>
 <style>
 body{
 font-family:Arial;
@@ -15,6 +15,7 @@ width:100px;
 #bar{
 color:white;
 height:140px;
+z-index:3;
 background: linear-gradient(to bottom, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
 }
 #logtxt{
@@ -33,6 +34,7 @@ font-size:10px;
 	height:calc(100% - 140px);
 	width:100%;
 	overflow-y:scroll;
+	width:75%;
 }
 #lm{
 	text-align:center;
@@ -82,9 +84,17 @@ h3{
 	text-align:center;
 }
 .csh{
-	font-size:50px;
-	height:60px;
-	width:60px;
+	font-size:30px;
+	height:40px;
+	width:40px;
+}
+#sb{
+	position:fixed;
+	width:25%;
+	left:75%;
+	top:140px;
+	height:calc(100% - 140px);
+	
 }
 </style>
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -92,6 +102,7 @@ h3{
 <div id="limbomode">
 <h1>You are now a Toothpasre node</h1>
 <p>You can leave your computer running with the browser window on the background, and your computer will help more Toothpasre users discover new content faster.</p>
+<h6>Warning: Do not switch tabs. If you want to use your browser while Toothpasre is running, make this tab a window.</h6>
 <button onclick="limboend();">Return to normal</button>
 </div>
 <div id="dbg">
@@ -114,11 +125,18 @@ h3{
 <button onclick="forget();"><img class="ic" src="data:image/jpeg;base64,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"/><h3>FORGET</h3></button>
 <button onclick="terms();"><img class="ic" src="data:image/octet-stream;base64,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"><h3>TERMS</h3></button>
 <button onclick="limbo();"><img class="ic" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAEMuMjoyKkM6NjpLR0NPZKZsZFxcZMySmnmm8dT++u3U6eX//////////+Xp////////////////////////////2wBDAUdLS2RXZMRsbMT//+n/////////////////////////////////////////////////////////////////////wAARCABkAGQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIDAQT/xAAqEAACAgICAQMDAwUAAAAAAAAAAQIRAyESMUEiUWEEE3EUMpEjQkNigf/EABgBAAMBAQAAAAAAAAAAAAAAAAABAgME/8QAHxEBAQACAgIDAQAAAAAAAAAAAAECERIhA1ETMUFh/9oADAMBAAIRAxEAPwCAABqkHRgzJRUJarpnOAB36fQHCm102a5S65Nk6N1TlHhLa6HX7V+DjbilrbMjmnHSeiNxpcLI7aOPK08kq6CWWcltiFyMq0AAsgAAAbKPF62KdOkTyU/yYY+T22y8fpIAHxw5veortmtsk2y0yEJTdRRdfTxr1Nt/A8XFJKOkbZzZeS36a446S/Tw+f5Mf08fDZWzGyd1aMsLX7XZOjobEmlL8muHk9s8sfSQAB0MgAAAXTTMlG10Jje2/gdy0cbrLHHcvU9FuKS4xVISN2h9t0gyyv0njJ21/ItjvG672Slp0SNtbMbFsBkGxa/n3NKrDJq7SGSDVsOI0k4umLLui5ndaZ5TtgAkn2BXyVCkI6tvsOPmzIy9Ifd4yuujPTqtkho2m7K432znWRyk7HUmnaFZ2mnlkbdXT9ib7GcYufNx9RknbDomAAAGx1JFHkfgktMaaU4pPVewAs22tiVckO3xhwXSIqT5D0nKLWgJ2AtMjPjWvAjaqvJo0YxcfUVOnRZscUsUJpfDNQ2NqKcHtP3KLHBxpeA+yvSVsCjxPwzPty9hcaNxHK6SFxSttFcmKUl0xceGUXbTseuiMHIbhL2D7T86FqntKb0/kxQUZJraYZdTpeBoP+k/grWoV7jbfsAjkBOmIN8DX4CSsNt9ksrGV7RKndGpSiuVaHTdCyPzs1TJJjClsLUU+5/qzHlr+yQgFc6XGNeZ+Mbf/RYzyOXqilE0Gw5DjEvt7uTCbSjS0MpqTaT6CShqdavaFsX+IsB5RXJ8ekAto4matyYsW3Om9AALUlFKKr3Qv+RR8cgAUJuJaf5GegAP1f4LMsAAg2I5NgAHGRgnFvdiqT2m7VWAFo/VYdP8gAEh/9k="/><h3>MINER NODE</h3></button>
+<button onclick="aspam();"><img class="ic" src="data:image/octet-stream;base64,UklGRqoDAABXRUJQVlA4IJ4DAADQGgCdASpkAGQAPwlyslCrpyUisvT9+XAhCWcA0FnH5ZFVfu8OqlMl1XVkGUbLtZtVY3qCr21mjeiVHMgGa3AcCRoUAvNX++PZ58HPbrOWlmke45hXjyLd/SVNk65AVxyQKWR23ubdP4XYmoicZMkSeJzz75vANiLmZ+16xAlhfzuYxrk75JbKhUlJVDTMDGnv6KH5fseTAiCwe37z+DvtztH+6eikonTwjyJ+Fvv4bx4tJWmlNvf/7we1PbeV7Djx+AJGlupuM8qdwdVzpwwFPXVUuNcAdVx8IJ1xF8kAAHxWagJTRes3xHAq4i6uTSWKsR6q71aUbuT3aYq01UWWRkVdqWp6Vi5KVN257PZMTDAVP2OUTxFJ991vFST4kbgm/PS3Ws4xXop/ss9awDu1sbHlvgckPG0NT4zZ87JON2qN9HhLQUsGmGXVa+S0wuutlMN++LzcTqpbvAJdgiEfV8d/a5rFjHTEv3hPBP98ejC5Zjb78GDrU8vq9+95v4TL5jav85bGNOG8XDXQXg9GzGtDbCLUiMmEOoMnBtSjkjUL2P5Xv09BfM0VpI4mR+KTrHkiC/gQ4fI5eISy7lwDY2htWBCw0aoEYNZ27IysvTfJmi8kD5pufNVJcoJYD3kVTybMfguRxdWESsYtLx/dVb1wc55GIWxOvr0SA1EcKTqHSi2DYaWPqPW2wA4yx82Xd6B0R8lfLFxoAKBbd1Nji8MqDPur3gyfjeeLH9v1Tbv36buRnAujAMYKWz9qCxBhyTIq+EAoypNNpoYWnFVkunAkal9FEw1kVi/k7BudFXD5WMW6AwqCvp5l57xiRI+A4QuVlOLyU5P/84YrVT9GKGbDnGpOZ6jLjpLSh/l4gpy63RrKYlMP0z76YMo41c7zHIyoz1vEOnyTQsC2Zf+uiCxnCKA8NflHXJ3x+HzN4v6cvXRoeqSU+yP6v5GO+krS+ZmExzjQiI0oOTD1yXewPbHTf0rMaBZLP7WhTpcq8blY2Rn4EDoP0R/BzXk2q2Y3J2XVz2kYoU1CkQ9JNzgsxmcF+qDY3dfRJkXSIUyKlV/up1V9BxKBHOVRaoZZswOXvN9Qld8loZNF7F+E5bnT7QvY7Bj3E5wtOxLTLJDlD2qLq+6jb9UTCYbVjk8tOngemuu0YQfC8QHMZffuBfifmqfJ7WCrdFoB2xHdp81MbOBaOgZiTTTfpoSb83Ofz2gs4n/B3Urz9yfAgAAAAA=="/><h3>ANTISPAM</h3></button>
+<button onclick="help();"><img class="ic" src="data:image/octet-stream;base64,UklGRooHAABXRUJQVlA4IH4HAADQIwCdASpkAGQAPpE4mEeloyKhK9K/uLASCUAXMgvx9pUlvbnwX7b587Lp1Ecd8NfMwInQkEcL5n2vn3qEGp0IaK7uM+xOnsq2xtbIJSEWyf2TIMsrpzVtMfgd7zmXafKfTGVMUwzoYhyZgRJVPJCinl8w5MDINwKtpET2ulmk8X9OsIkMvp3wUMZwzGKbZ/aBNlZEjDYGE3TGdwVHd+Z+dzmHOpt26hbAFIdzHZF6cJUZtw1dz/yBENO5UAM5IH/svbAkxdzbxrDhT6J+WnkEkvNp//64l5j6Guz3AEjUiTYQdpnPVq1v2/EVgkzLC0D2CgIwO16REF9fjELwntrD9oY/GvKLuOJpZXj0uwC1hvBpnf2OT31tv5wP9qniNuC/dYoAlDUgAP6Kf+Cl+YSAAlO9Rd3T2/aL5ideZV2EkgvM4rxvO62Z0y/YdDAJGmN6dPa3qzGIu8Esp4pmkvfed1I8bEWkRE7qXRAzrDpEjl9N1Ldy+v7yzCfWzo5dKBR25UnJJmQBulH+kZq145O7Zc6K6b6FcrvJ2ScVrY4EfKZUih2Xm7so628fsE2j38KWC7hvung3OQfzxevhBIS3nzFPCknZMPntZX0HbUgJhsEEuArd8PjHCrXmDYAV+TCprebkn/A20R6Fxsd6VGOYJPfDYm+pB8+tvB9SHMuca+PAQXiujkWuwSGXUxIDGXPDS1rps0KBmpcB1YLjUb/WP2WGBxm0+xphW4+/r/8QBafXQgsHSifxzuHDFvi46fR7wSYep+0Jnh9HdB+2XmqnbL6zPmADgNk54a6LYZVSvEAEdI7+sZxjirPisv5/BwcCVz1/iCQXRLfEc6MQddnWONzt3GhTaNxL7jyvivUa2KKEt8FbI5x2wygCqWJOSgdPVrtBBSC9jFfMMgtY3zyMkW7PA63vv/yQZfslMGMFqn54XPDpGc+QPwJ6tMDhSNsvoVpJti9pWsZQP7hL4/X9JTv6LMmzO3uVo0b0EO45FPWiguZhVNcFssFBsVKJKseyKoc3XjdT7Bm0NZKIDh8ukeNFAG/g+Vz/kR/FXe7iG4Y550aw3JTNcLyBfwjCQhKUaPUjKYLVC0t/hfVQMF3AGzGNR7JZK0CMtWMvyxeiLJvf3WtLuJ91hjPZPZmqwUnmRYcTdmUK73o+9oL3xixjKf4osQEoknDQZB2XeHMqwoAHv4AbS2dz7gxlQsTOKIZPv/Ya7JMdT8cuF9dMuRRHXd9fXLcx+qvjU8dp7lC+cKSyRTuNhrX0kGhsikEqm5gReh6JnWVzNRYMBzzFLGFhJDg6zFKk3YVcMI5K8sJd2Boy7epY05/NMwNDCFx2yFGc3qXykj3Q0kDfBoVxSji3g4DKvpcEVSgRtEFoIgmjtE6rydcmZMZ0rX6hL3IiZuJ50/XSsM7i6piCCJY9ct0wh6Qx0+uXVX3sBpUnUE/I1t6wr86oB6dzgfz/xJJUmu81gwXGg6M9WFyVRD9UDWP2n7elA3wtQbt4PDAfFa5++rgozYZkAekpI9SWDFRAN34dAV13G7Y31QUGbCksFgJv1b4h4Q+l0FCx3GPruVPr0/by3S/UH8RiV7OzjZXwBpCTu+h46OYdNUhAeEGkxJivstzU4K0zGrFAtkHPSECDzj135xnKWu+ZotVtK5bnmPL6hIpt3eoBdgqcZ424WcV7NQ87RvsV98M3eZvJDZ/SHqBN4a9iMyX4+3c9KvaBLMBxzomfOH47ppfpN1yfskI2o/xEvRg87nYs6NCEArO8Ro5rMw8Ad08Hzbgm+ag2ZY6KtB8t8uuUHF/Gzce/ztlVmTqKU+dQnvEW+hptTCGj23a9ljwFn1zujclkfQV1S4q3IYgv9iOdsnTPlTvc8mrPRiGQXOSufHBxaU+xrheSe2fwwpqeVPPnKwWxnXWVwW3cTY2qXtxfwWhPPI5TTOHR7quOqHYEuER/YNaJOFJvU50dyQ3a91YbAOtVp1B/2PF3taJdY4TbBscgB5M9J2qVIHFx1iCGgopy/NYWVdGjIujdn4tdwIn4mCkKIvSpcIal2Gh4335lKmwGtrrqoHZ7AiR+ZaAo9TeU4OpW61MPa4zcYIR8HKlVlYquFXihhb/0UsNEyB+tni6lzVBtEnnBgiqzmOk8TCkn8nnQh4SyLVYDxzpiitxZIEEWI7e6aq+5QJLiv/9ViuzbOO2iVyO/3GuMemoP19OqytfOoOwawJLCgjdW5Bfmj6HySUr91D9u+aJ6v5CNROlBszcl8Ky4OyvftKpCftPRQVKWQHa5solbmyJHdFANCEVAf8ReHKmho9emkibCOy7KhZaC39xOKPP6ekAglY9Bta5mug8VxpFN95NQmIRbx2KjbwQnPd5sjU3nKcUVP9crzuGuc+gho9NxWCoSfTu+ttmt0N4sbFAh+VJnVgRIzpjuTZ6PcDzWfnwPrpoQLYAagmaYf8ixfBbfziz2LuziCthrCGNRz8lRCJZXNFYwQ+Nu3fNg/d4+KnAJq6STP3uc1Ds+AsdJDBK/fxbVbRVATSuy38VQyCYW2LyP+xM1NOewAAAA"/><h3>HOW TO USE</h3></button>
 <span id="logtxt">Loading scripts...</span>
 </div>
+<div id="sb">
+<h2>Popular communities</h2>
+<div id="sbc"></div>
+<p>Loading...</p>
+</div>
 <div id="con">
-<p>Welcome to Toothpasre, the brand new social media. Toothpasre connects you directly to others instead to a server, resulting in no censorship, but also absence of moderation. Be very careful while browsing, and keep the community safe.</p>
-<p>How to use: Click "post" to post. click "forget" incase you saw some shit. click "terms" to read boring text.</p>
+<p>Welcome to Toothpasre, the brand new web3 trendy crypto blockchain social media (totally not a scam). Toothpasre connects you directly to others instead to a server (webrtc), resulting in no censorship, but also absence of moderation. Be very careful while browsing, and keep the community safe.</p>
+<h2 id="ind">Toothpasre frontpage</h2>
 <div id="pv"></div>
 <p id="lm">Loading more posts...</br></br></br></br></br></br></p>
 </div>
@@ -132,9 +150,11 @@ let cme = 0;
 let cs=0;
 let ots = [];
 let reps = [];
+let comms=[];
 let stepping=false;
 let fails=0;
 let filter='';
+let asf=4;
 termsSeen=false;
 ptv=[];
 
@@ -153,8 +173,7 @@ function buildOTS() {
 
 function post() {
 	if(!termsSeen){
-		alert('Please read the terms of use before posting.');
-		return;
+		terms();
 	}
 	document.getElementById('dbg').style.display='block';
 }
@@ -168,7 +187,9 @@ function postf(){
 		alert("Title length must be 3 or larger");
 		return;
 	}
-	posts.push(JSON.stringify([title,community,url,content]));
+	let s=JSON.stringify([title,community,url,content]);
+	posts.push(s);
+	addp(s);
 	document.getElementById('dbg').style.display='none';
 	document.getElementById('ip1').value='';
 	document.getElementById('ip2').value='';
@@ -221,6 +242,8 @@ function step(){
 			step();
 		});
 		cs+=1;
+	}else{ 
+		log('Idle');
 	}
 }
 
@@ -234,7 +257,20 @@ function sanitize(s){
 
 function addp(s){
 	ptv.push(s);
-	render(s);
+	if(JSON.parse(s)[1]==filter||filter==''){
+		render(s);
+	}
+	let c=sanitize(JSON.parse(s)[1]);
+	if(c.length>0){
+		ncomm(c);
+	}
+}
+
+function ncomm(c){
+	if(!comms.includes(c)){
+		comms.push(c);
+		document.getElementById('sbc').innerHTML+='<p onclick="sf(\''+c+'\');">&nbsp;&nbsp;&nbsp;'+c+'</p>';
+	}
 }
 
 function render(s){
@@ -253,19 +289,25 @@ function render(s){
 				dn=dn.split('//')[1];
 			}
 			dn=dn.split('/')[0];
-			h+='<p>Link: <tt><a href="'+l+'">'+l+'</a></tt></p>';
+			if(dn!='image'){
+				h+='<p>Link: <tt><a href="'+l+'">'+l+'</a></tt></p>';
+			}
 		}
 		if(sanitize(e[3]).length>0){
 			h+='<p>'+sanitize(e[3])+'</p>';
 		}
-		if(dn=='i.imgur.com'||dn=='image'){
+		let d2t={'image':'img'};
+		function d2ta(d){
+			return d2t[d]==undefined?'iframe width="800" height="600"':d2t[d];
+		}
+		if(dn.length!=0){
 			let rid='a_'+Math.round(Math.random()*10000000);
 			h+='<p><button id="'+rid+'_b" class="csh" onclick="document.getElementById(\''+rid+'\').style.display=\'block\';document.getElementById(\''+rid+'_p\').style.display=\'block\';document.getElementById(\''+rid+'_b\').style.display=\'none\';">+</button></p>'
 			h+='<p><button id="'+rid+'_p" class="csh" style="display:none;" onclick="document.getElementById(\''+rid+'\').style.display=\'none\';document.getElementById(\''+rid+'_b\').style.display=\'block\';document.getElementById(\''+rid+'_p\').style.display=\'none\';">-</button></p>';
 			h+='<div style="display:none;" id="'+rid+'">';
-			h+='</br></br><button onclick="try{let e=document.getElementById(\''+rid+'_c\');e.style=\'filter:blur(\'+String(Number(e.style.filter.split(\'(\')[1].split(\'px)\')[0])-10)+\'px);\';}catch(e){}">Unblur a bit</button>';
+			h+='</br></br><button onclick="try{let e=document.getElementById(\''+rid+'_c\');e.style=\'filter:blur(\'+String(Number(e.style.filter.split(\'(\')[1].split(\'px)\')[0])*0.6)+\'px);\';}catch(e){}">Unblur a bit</button>';
 			h+='</br></br><button onclick="try{let e=document.getElementById(\''+rid+'_c\');e.style=\'filter:blur(0);\';}catch(e){}">Unblur completely</button>';
-			h+='</br></br><img id="'+rid+'_c" style="filter:blur(100px);" src="'+l+'"/>';
+			h+='</br></br><'+d2ta(dn)+' id="'+rid+'_c" style="filter:blur(100px);" src="'+l+'"/>';
 			h+='</div>';
 		}
 		h+='</div>';
@@ -274,22 +316,25 @@ function render(s){
 }
 
 function upload(f){
-	var reader = new FileReader();
-	reader.readAsDataURL(f.files[0]);
-	reader.onload = function () {
-	document.getElementById('ip3').value=reader.result;
-	};
-	reader.onerror = function (error) {
-	console.log('Error: ', error);
-	};
+	if(f.files[0].size<1000000){
+		var reader = new FileReader();
+		reader.readAsDataURL(f.files[0]);
+		reader.onload = function () {
+		document.getElementById('ip3').value=reader.result;
+		};
+		reader.onerror = function (error) {
+		alert('Something went wrong');
+		};
+	}else{
+		alert('Maximum filesize is 1MB.');
+	}
 }
 
 function merge(s){
 	let p=JSON.parse(s);
 	for(let i=0;i<p.length;i++){
-		if(!posts.includes(p[i])){
+		if(!isSpam(p[i])){
 			posts.push(p[i]);
-			console.log("FOUND "+p[i]);
 			addp(p[i]);
 		}
 	}
@@ -357,11 +402,16 @@ function filterd(){
 }
 
 function sf(f){
+	if(f.length==0){
+		document.getElementById('ind').innerText='Toothpasre frontpage';
+	}else{
+		document.getElementById('ind').innerText=f;
+		document.getElementById('ind').innerHTML+='<button onclick="sf(\'\');">Return to frontpage</button>';
+	}
 	filter=f;
 	pv.innerHTML='';
 	for(let i=0;i<ptv.length;i++){
-		console.log(ptv[i]);
-		if(JSON.parse(ptv[i])[2]==f||f==''){
+		if(JSON.parse(ptv[i])[1]==f||f==''){
 			render(ptv[i]);
 		}
 	}
@@ -374,6 +424,72 @@ function limboend(){
 function debug(){
 	
 }
+
+function aspam(){
+	try{
+		let as=Math.round(Number(prompt('Set anti-spam filter power (1 to 10)')));
+		if(as<1){
+			as=1;
+		}
+		if(as>10){
+			as=10;
+		}
+		asf=as;
+	}catch(e){}
+}
+
+function help(){
+	alert('How to use: Click "post" to post. click "forget" incase you saw some shit. click "terms" to read boring text. click "visit" to go to a community. do not click "miner node". click "antispam" to set the anti-spam threshold.');
+}
+
+function isSpam(s){
+	let sd=JSON.parse(s)[1]+' '+JSON.parse(s)[3];
+	if(posts.includes(s)){
+		return true;
+	}
+	for(let i=0;i<posts.length;i++){
+		let pd=JSON.parse(posts[i])[1]+' '+JSON.parse(posts[i])[3];
+		if(fuz(sd,pd)<asf){
+			return true;
+		}
+	}
+	return false;
+}
+
+function fuz(str1, str2) {
+  const len1 = str1.length;
+  const len2 = str2.length;
+
+  let matrix = Array(len1 + 1);
+  for (let i = 0; i <= len1; i++) {
+    matrix[i] = Array(len2 + 1);
+  }
+
+  for (let i = 0; i <= len1; i++) {
+    matrix[i][0] = i;
+  }
+
+  for (let j = 0; j <= len2; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= len1; i++) {
+    for (let j = 1; j <= len2; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + 1
+        );
+      }
+    }
+  }
+
+  return matrix[len1][len2];
+}
+
 
 document.addEventListener("DOMContentLoaded", start);
 console.error('WARNING!!!!!!!!!!! IF SOMEONE TOLD YOU TO WRITE SOMETHING HERE, ITS A SCAM! DO NOT WRITE ANYTHING HERE THAT A STRANGER TOLD YOU TO WRITE!');
